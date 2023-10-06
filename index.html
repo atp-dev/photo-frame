@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Thaicare Photo Frame</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.css" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.css" rel="stylesheet" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+            integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+            crossorigin="anonymous"
+        />
+        <link href="styles/styles.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div class="dropzone" id="myDropzone"></div>
+
+        <!-- <div class="centered"><button id="btnPreview" class="btn btn-primary btn-lg">Preview</button></div> -->
+
+        <div id="areaPreview" class="centered"><img id="previewImg" class="previewImage" src="https://amazingthailand365.tourismthailand.org/thaicare/frames/frame_01.png" alt="" /></div>
+
+        <div class="centered"><a id="btnDownload" class="btn btn-primary btn-vlg disabled" onclick="startDownload()">Download</a></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+            integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+            crossorigin="anonymous"
+        ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+
+        <script>
+            var download_file = '';
+
+            Dropzone.options.myDropzone = {
+                url: 'upload.php',
+                parallelUploads: 1,
+                transformFile: function (file, done) {
+                    // Create Dropzone reference for use in confirm button click handler
+                    var myDropZone = this;
+                    // Create the image editor overlay
+                    var editor = document.createElement('div');
+                    editor.style.position = 'fixed';
+                    editor.style.left = 0;
+                    editor.style.right = 0;
+                    editor.style.top = 0;
+                    editor.style.bottom = 0;
+                    editor.style.zIndex = 9999;
+                    editor.style.backgroundColor = '#000';
+                    document.body.appendChild(editor);
+                    // Create confirm button at the top left of the viewport
+                    var buttonConfirm = document.createElement('button');
+                    buttonConfirm.style.position = 'absolute';
+                    buttonConfirm.style.left = '10px';
+                    buttonConfirm.style.top = '10px';
+                    buttonConfirm.style.zIndex = 9999;
+                    buttonConfirm.textContent = 'Confirm';
+                    buttonConfirm.style.fontSize = '3rem';
+                    editor.appendChild(buttonConfirm);
+                    buttonConfirm.addEventListener('click', function () {
+                        // Get the canvas with image data from Cropper.js
+                        var canvas = cropper.getCroppedCanvas({
+                            width: 1000,
+                            height: 1000,
+                        });
+                        // Turn the canvas into a Blob (file object without a name)
+                        canvas.toBlob(function (blob) {
+                            // Create a new Dropzone file thumbnail
+                            myDropZone.createThumbnail(blob, myDropZone.options.thumbnailWidth, myDropZone.options.thumbnailHeight, myDropZone.options.thumbnailMethod, false, function (dataURL) {
+                                // Update the Dropzone file thumbnail
+                                myDropZone.emit('thumbnail', file, dataURL);
+                                // Return the file to Dropzone
+                                done(blob);
+                            });
+                        });
+
+                        // Remove the editor from the view
+                        document.body.removeChild(editor);
+                    });
+
+                    // Create an image node for Cropper.js
+                    var image = new Image();
+                    image.src = URL.createObjectURL(file);
+                    editor.appendChild(image);
+
+                    // Create Cropper.js
+                    var cropper = new Cropper(image, { aspectRatio: 1, cropBoxResizable: false });
+
+                    var buttonRotateLeft = document.createElement('button');
+                    buttonRotateLeft.style.position = 'absolute';
+                    buttonRotateLeft.style.left = '25vw';
+                    buttonRotateLeft.style.top = '10px';
+                    buttonRotateLeft.style.zIndex = 9999;
+                    buttonRotateLeft.textContent = 'Rotate Left';
+                    buttonRotateLeft.style.fontSize = '3rem';
+                    editor.appendChild(buttonRotateLeft);
+
+                    buttonRotateLeft.addEventListener('click', function () {
+                        // Get the canvas with image data from Cropper.js
+                        cropper.rotate(45);
+                    });
+
+                    var buttonRotateRight = document.createElement('button');
+                    buttonRotateRight.style.position = 'absolute';
+                    buttonRotateRight.style.left = '55vw';
+                    buttonRotateRight.style.top = '10px';
+                    buttonRotateRight.style.zIndex = 9999;
+                    buttonRotateRight.textContent = 'Rotate Right';
+                    buttonRotateRight.style.fontSize = '3rem';
+                    editor.appendChild(buttonRotateRight);
+
+                    buttonRotateRight.addEventListener('click', function () {
+                        // Get the canvas with image data from Cropper.js
+                        cropper.rotate(-45);
+                    });
+                },
+                init: function () {
+                    this.on('success', function (file, response) {
+                        var obj = JSON.parse(response);
+                        console.log(obj);
+
+                        document.getElementById('previewImg').src = obj.file;
+
+                        // btnDownload
+                        var dn_btn = document.getElementById('btnDownload');
+                        dn_btn.classList.remove('disabled');
+                        // dn_btn.href = obj.file;
+                        download_file = obj.file;
+
+                        document.getElementById('myDropzone').remove();
+                    });
+                },
+            };
+
+            async function startDownload() {
+                await axios({
+                    url: download_file,
+                    method: 'GET',
+                    responseType: 'blob',
+                }).then((response) => {
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', 'thaicare_photo_frame.jpg');
+                    document.body.appendChild(link);
+                    link.click();
+                });
+            }
+
+            // btnPreview.addEventListener('click', function () {});
+        </script>
+    </body>
+</html>

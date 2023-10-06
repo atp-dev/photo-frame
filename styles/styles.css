@@ -1,0 +1,22 @@
+.previewImage {
+    width: 95%;
+}
+
+.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1vh;
+}
+
+.btn-group-lg > .btn,
+.btn-vlg {
+    --bs-btn-padding-y: 1rem;
+    --bs-btn-padding-x: 6rem;
+    --bs-btn-font-size: 3rem;
+    --bs-btn-border-radius: 0.8rem;
+}
+
+.dropzone .dz-message .dz-button {
+    font-size: 2.5rem;
+}
