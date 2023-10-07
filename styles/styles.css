@@ -20,3 +20,20 @@
 .dropzone .dz-message .dz-button {
     font-size: 2rem;
 }
+
+.dropzone .dz-message {
+    text-align: center;
+    margin: 0.1em 0;
+}
+
+.dropzone {
+    background: white;
+    border-radius: 20px;
+    border: 2px dashed rgb(0, 135, 247);
+    border-image: none;
+    /* max-width: 500px; */
+    margin-left: 3rem;
+    margin-right: 3rem;
+    margin-top: 1rem;
+    font-size: 3rem;
+}

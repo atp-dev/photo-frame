@@ -14,12 +14,23 @@
         <link href="styles/styles.css" rel="stylesheet" />
     </head>
     <body>
-        <div class="dropzone" id="myDropzone"></div>
+        <!-- <div class="dropzone" id="myDropzone"></div> -->
+        <div id="myDropzone" class="dropzone">
+            <div class="dz-message needsclick">
+                <strong>
+                    กดที่นี่ เพื่อเลือกรูปจากคลังรูป
+                    <br />
+                    หรือถ่ายภาพใหม่
+                </strong>
+            </div>
+        </div>
 
         <!-- <div class="centered"><button id="btnPreview" class="btn btn-primary btn-lg">Preview</button></div> -->
-        <div class="centered"><div id="btnDownload" class="btn btn-primary btn-vlg disabled" style="display: none">กดค้างที่รูป เพื่อบันทึก</div></div>
+        <div class="centered" style="display: none"><div id="btnDownload" class="btn btn-primary btn-vlg disabled" style="display: none">กดค้างที่รูป เพื่อบันทึก</div></div>
 
-        <div id="areaPreview" class="centered"><img id="previewImg" class="previewImage" src="https://amazingthailand365.tourismthailand.org/thaicare/frames/frame_01.png" alt="" /></div>
+        <div id="areaPreview" class="centered">
+            <img id="previewImg" class="previewImage" src="https://amazingthailand365.tourismthailand.org/thaicare/frames/frame_01.png" alt="" />
+        </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
@@ -68,12 +79,19 @@
                         // Turn the canvas into a Blob (file object without a name)
                         canvas.toBlob(function (blob) {
                             // Create a new Dropzone file thumbnail
-                            myDropZone.createThumbnail(blob, myDropZone.options.thumbnailWidth, myDropZone.options.thumbnailHeight, myDropZone.options.thumbnailMethod, false, function (dataURL) {
-                                // Update the Dropzone file thumbnail
-                                myDropZone.emit('thumbnail', file, dataURL);
-                                // Return the file to Dropzone
-                                done(blob);
-                            });
+                            myDropZone.createThumbnail(
+                                blob,
+                                myDropZone.options.thumbnailWidth,
+                                myDropZone.options.thumbnailHeight,
+                                myDropZone.options.thumbnailMethod,
+                                false,
+                                function (dataURL) {
+                                    // Update the Dropzone file thumbnail
+                                    myDropZone.emit('thumbnail', file, dataURL);
+                                    // Return the file to Dropzone
+                                    done(blob);
+                                }
+                            );
                         });
 
                         // Remove the editor from the view
@@ -124,9 +142,9 @@
 
                         document.getElementById('previewImg').src = obj.file;
 
-                        btnDownload;
                         var dn_btn = document.getElementById('btnDownload');
                         dn_btn.removeAttribute('style');
+                        dn_btn.parentNode.removeAttribute('style');
                         // dn_btn.classList.remove('disabled');
                         // dn_btn.href = obj.file;
                         // dn_btn.download = 'thaicare_photo_frame.png';
