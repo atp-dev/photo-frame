@@ -41,12 +41,18 @@
     }
     #preview-container {
       position: relative;
-      width: 350px;
-      height: 350px;
+      width: 450px;
+      height: 450px;
       margin: 10px auto;
       border: 5px solid black;
       border-radius: 20px;
       background: white;
+    }
+        @media (max-width: 640px) {
+      #preview-container {
+        width: 250px;
+        height: 250px;
+      }
     }
     canvas {
       width: 100%;
