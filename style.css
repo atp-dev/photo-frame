@@ -41,8 +41,8 @@
     }
     #preview-container {
       position: relative;
-      width: 250px;
-      height: 250px;
+      width: 350px;
+      height: 350px;
       margin: 10px auto;
       border: 5px solid black;
       border-radius: 20px;
