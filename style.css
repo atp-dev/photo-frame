@@ -17,7 +17,7 @@
       font-size: 2rem;
       margin-bottom: 10px;
       font-weight: normal;
-      font-family: 'bkk_draft5regular';
+      font-family: 'TAT_Sana_Suksa', sans-serif;
     }
     p {
       font-size: 1.1rem;
@@ -50,8 +50,8 @@
     }
         @media (max-width: 640px) {
       #preview-container {
-        width: 250px;
-        height: 250px;
+        width: 350px;
+        height: 350px;
       }
     }
     canvas {
@@ -64,7 +64,7 @@
       font-style: italic;
     }
     #downloadBtn {
-      font-family: "Anuphan", sans-serif;
+     font-family: 'TAT_Sana_Suksa', sans-serif;
       display: none;
       margin-top: 20px;
       padding: 12px 24px;
