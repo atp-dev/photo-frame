@@ -4,9 +4,10 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 40px 20px;
+      padding: 10px 20px;
       color: black;
       text-align: center;
+      line-height: 1.5rem;
 
       background: linear-gradient(-45deg, #ffd3e0, #b5ead7, #c7ceea, #ffdac1);
       background-size: 400% 400%;
@@ -15,13 +16,13 @@
     }
     h1 {
       font-size: 2rem;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
       font-weight: normal;
       font-family: 'TAT_Sana_Suksa', sans-serif;
     }
     p {
       font-size: 1.1rem;
-      line-height: 1.6;
+      margin: 5px;
       max-width: 400px;
     }
     #customUpload {
@@ -50,8 +51,8 @@
     }
         @media (max-width: 640px) {
       #preview-container {
-        width: 350px;
-        height: 350px;
+        width: 320px;
+        height: 320px;
       }
     }
     canvas {
@@ -67,6 +68,7 @@
      font-family: 'TAT_Sana_Suksa', sans-serif;
       display: none;
       margin-top: 20px;
+      margin-bottom: 10px;
       padding: 12px 24px;
       background-color: white;
       color: black;
@@ -85,6 +87,8 @@
     }
     .note {
       font-size: 12px;
+      padding: 0;
+      margin: 0;
     }
     .logo {
         margin-top: 40px;
