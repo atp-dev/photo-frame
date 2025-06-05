@@ -1,6 +1,6 @@
 
     body {
-      font-family: "Anuphan", sans-serif;
+      font-family: 'TAT_Sana_Suksa', sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -105,3 +105,10 @@
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
+    @font-face {
+  font-family: 'TAT_Sana_Suksa';
+  src: url('/fonts/TAT_Sana_Suksa/TATSANA_CHON-BLD.OTF') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
